@@ -58,7 +58,7 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void print_log(char* msg)
+void pr_log(char* msg)
 {
 	HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY) ;
 }
@@ -95,17 +95,17 @@ int main(void)
   MX_GPIO_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  print_log("BOOTLOADER start \n") ;
+  pr_log("BOOTLOADER start \n") ;
   __disable_irq();
 
   char* info_str = 0x08010000;
   if (info_str[0] == 0xff)
   {
-	  print_log("Jump to current firmware \n") ;
+	  pr_log("Jump to current firmware \n") ;
   }
   else if (strstr(info_str, "have new firmware"))
   {
-	  print_log("Switching firmware \n") ;
+	  pr_log("Switching firmware \n") ;
       HAL_FLASH_Unlock() ;
       FLASH_Erase_Sector(7, FLASH_VOLTAGE_RANGE_3);
       char *temp = (char*)0x08020000 ;
@@ -123,7 +123,7 @@ int main(void)
 
       FLASH_Erase_Sector(4, FLASH_VOLTAGE_RANGE_3);
       HAL_FLASH_Lock() ;
-	  print_log("Switch firmware finish \n") ;
+	  pr_log("Switch firmware finish \n") ;
   }
 
   uint32_t* pReset_handler ;
